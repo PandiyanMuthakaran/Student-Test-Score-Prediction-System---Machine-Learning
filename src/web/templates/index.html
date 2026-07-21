@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Exam Score Predictor</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Student Exam Score Predictor</h1>
+      <p>Enter student details and get an estimated exam score.</p>
+    </header>
+
+    <div class="layout">
+      <!-- Left: Inputs -->
+      <form id="predictForm" class="panel">
+        <h2>Input Features</h2>
+
+<div class="form-grid">
+  <!-- Left column -->
+  <div class="col">
+    <div class="field">
+      <label>Age</label>
+      <input type="number" name="age" value="24" min="10" max="80" required>
+    </div>
+
+    <div class="field">
+      <label>Gender</label>
+      <select name="gender" required>
+        <option value="male">male</option>
+        <option value="female">female</option>
+        <option value="other">other</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="course">Course</label>
+      <select id="course" name="course" required>
+        <option value="b.com">b.com</option>
+        <option value="b.sc">b.sc</option>
+        <option value="b.tech">b.tech</option>
+        <option value="ba">ba</option>
+        <option value="bba">bba</option>
+        <option value="bca">bca</option>
+        <option value="diploma">diploma</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Internet Access</label>
+      <select name="internet_access" required>
+        <option value="yes">yes</option>
+        <option value="no">no</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Right column -->
+  <div class="col">
+    <div class="field">
+      <label>Study Hours (per day)</label>
+      <input type="number" name="study_hours" value="4.00" step="0.01" min="0" max="24" required>
+    </div>
+
+    <div class="field">
+      <label>Class Attendance (%)</label>
+      <input type="number" name="class_attendance" value="75.0" step="0.1" min="0" max="100" required>
+    </div>
+
+    <div class="field">
+      <label>Sleep Hours (per day)</label>
+      <input type="number" name="sleep_hours" value="7.00" step="0.01" min="0" max="24" required>
+    </div>
+
+    <div class="field">
+      <label>Sleep Quality</label>
+      <select name="sleep_quality" required>
+        <option value="poor">poor</option>
+        <option value="average" selected>average</option>
+        <option value="good">good</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Full width row (below the grid) -->
+<div class="form-grid-wide">
+  <div class="field">
+    <label>Study Method</label>
+    <select name="study_method" required>
+      <option value="self-study">self-study</option>
+      <option value="mixed">mixed</option>
+      <option value="coaching">coaching</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Facility Rating</label>
+    <select name="facility_rating" required>
+      <option value="low">low</option>
+      <option value="medium">medium</option>
+      <option value="high">high</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Exam Difficulty</label>
+    <select name="exam_difficulty" required>
+      <option value="easy">easy</option>
+      <option value="moderate">moderate</option>
+      <option value="hard">hard</option>
+    </select>
+  </div>
+</div>
+
+<button type="submit" class="btn">Predict Exam Score</button>
+
+      </form>
+
+      <!-- Right: Result -->
+      <div class="panel">
+        <h2>Prediction Result</h2>
+        <div id="result" class="result neutral">
+          Enter values and click <b>Predict Exam Score</b>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+document.getElementById("predictForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const payload = Object.fromEntries(new FormData(form).entries());
+
+  // Convert numeric fields
+  payload.age = Number(payload.age);
+  payload.study_hours = Number(payload.study_hours);
+  payload.class_attendance = Number(payload.class_attendance);
+  payload.sleep_hours = Number(payload.sleep_hours);
+
+  const resultBox = document.getElementById("result");
+  resultBox.className = "result neutral";
+  resultBox.textContent = "Predicting...";
+
+  try {
+    const res = await fetch("/predict", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Prediction failed");
+    }
+
+    resultBox.className = "result success";
+    resultBox.textContent = "Predicted Exam Score: " + data.predicted_exam_score;
+
+  } catch (err) {
+    resultBox.className = "result error";
+    resultBox.textContent = "Error: " + err.message;
+  }
+});
+</script>
+</body>
+</html>

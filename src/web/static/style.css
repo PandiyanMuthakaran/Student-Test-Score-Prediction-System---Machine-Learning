@@ -1,0 +1,227 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(1200px 600px at 20% 0%, rgba(99,102,241,0.20), transparent 55%),
+              radial-gradient(900px 500px at 90% 10%, rgba(16,185,129,0.16), transparent 50%),
+              #0b1220;
+  color: #e9eefc;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr; /* left wider, right smaller */
+  gap: 18px;
+  align-items: start;
+}
+
+
+.header h1 {
+  margin: 0 0 8px;
+  font-size: 40px;
+  letter-spacing: 0.2px;
+}
+
+.header p {
+  margin: 0 0 22px;
+  opacity: 0.85;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr; /* left wider, right smaller */
+  gap: 18px;
+  align-items: start;
+}
+
+
+.panel {
+  border-radius: 18px;
+  padding: 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+  backdrop-filter: blur(10px);
+}
+
+.panel h2 {
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.layout .panel:last-child {
+  position: sticky;
+  top: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+label {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+input, select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.25);
+  color: #e8eefc;
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: rgba(47, 103, 255, 0.8);
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #2f67ff;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.btn:hover { opacity: 0.92; }
+
+.result {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  font-size: 18px;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+.result.neutral {
+  background: rgba(255,255,255,0.06);
+}
+
+.result.success {
+  background: rgba(45, 255, 129, 0.12);
+  border-color: rgba(45, 255, 129, 0.28);
+}
+
+.result.error {
+  background: rgba(255, 70, 70, 0.12);
+  border-color: rgba(255, 70, 70, 0.28);
+}
+
+/* ---------- Form Controls: readable on dark UI ---------- */
+.field select,
+.field input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: #e9eefc;
+  outline: none;
+}
+
+.field select:focus,
+.field input:focus {
+  border-color: rgba(120, 170, 255, 0.55);
+  box-shadow: 0 0 0 4px rgba(120, 170, 255, 0.18);
+}
+
+/* This affects the dropdown list items in many browsers */
+.field select option {
+  background: #0f172a;   /* dark background */
+  color: #e9eefc;        /* light text */
+}
+
+/* For the "opened" dropdown in some browsers */
+.field select:focus option:checked {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.field {
+  margin: 10px 0;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.92rem;
+  color: rgba(233,238,252,0.85);
+}
+
+h1 {
+  margin: 0 0 6px 0;
+  letter-spacing: 0.2px;
+}
+
+.header p {
+  margin: 0;
+  color: rgba(233,238,252,0.75);
+}
+
+.btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: linear-gradient(135deg, rgba(99,102,241,0.85), rgba(16,185,129,0.75));
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn:hover {
+  filter: brightness(1.05);
+}
+
+/* Make the form panel scroll internally instead of the whole page */
+#predictForm.panel {
+  max-height: calc(100vh - 160px);
+  overflow: auto;
+  padding-right: 12px;
+}
+
+/* ---------- Compact 2-column form layout ---------- */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.form-grid .col .field {
+  margin: 10px 0;
+}
+
+.form-grid-wide {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+/* Make it responsive on small screens */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-grid-wide {
+    grid-template-columns: 1fr;
+  }
+  .layout .panel:last-child {
+    position: static;
+  }
+}
+
